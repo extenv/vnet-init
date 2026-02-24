@@ -1,0 +1,7 @@
+$ generator/app/
+$ generator/app.js
+console.log("hello world");
+#
+$ generator/Readme.md
+This is a test project.
+#
