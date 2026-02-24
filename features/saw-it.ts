@@ -1,7 +1,14 @@
-import { readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from "fs"
-import { join, dirname } from "path"
+import { readdirSync, statSync, existsSync } from "fs"
+import { join } from "path"
 
-function generateTree(dir: string, prefix = "", lines: string[] = []): string[] {
+/**
+ * Generate folder tree structure recursively
+ */
+function generateTree(
+  dir: string,
+  prefix = "",
+  lines: string[] = []
+): string[] {
   const items = readdirSync(dir)
 
   items.forEach((item, index) => {
@@ -22,6 +29,9 @@ function generateTree(dir: string, prefix = "", lines: string[] = []): string[] 
   return lines
 }
 
+/**
+ * Show help
+ */
 function showHelp() {
   console.log(`
 saw-it - Folder Tree Viewer
@@ -35,6 +45,9 @@ Examples:
 `)
 }
 
+/**
+ * Feature entry
+ */
 export default function run(args: string[]) {
   const folder = args[0]
 
@@ -59,15 +72,7 @@ export default function run(args: string[]) {
 
   const output = lines.join("\n")
 
-  if (process.stdout.isTTY) {
-    console.log(output)
-  } else {
-    const outputPath = (process.stdout as any).path
-
-    if (outputPath) {
-      const dir = dirname(outputPath)
-      mkdirSync(dir, { recursive: true })
-      writeFileSync(outputPath, output)
-    }
-  }
+  // 🔥 Always print to stdout
+  // Shell will handle redirect automatically
+  console.log(output)
 }
